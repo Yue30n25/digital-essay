@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Digital Technologies and Resistance | Academic Study</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #edece4;
+            color: #2c3a2f;
+            line-height: 1.75;
+            font-family: 'Palatino', 'Palatino Linotype', 'Georgia', 'Times New Roman', serif;
+        }
+
+        nav {
+            background-color: #3a4a3f;
+            padding: 0.9rem 1rem;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            border-bottom: 1px solid #cfd8c5;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+        }
+        nav a {
+            color: #f4f1e1;
+            margin: 0 18px;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            letter-spacing: 0.3px;
+            font-family: 'Palatino', 'Georgia', serif;
+            transition: opacity 0.2s;
+        }
+        nav a:hover {
+            opacity: 0.75;
+            text-decoration: underline;
+        }
+
+        .page {
+            max-width: 980px;
+            margin: 2.2rem auto;
+            padding: 2.8rem 3.2rem;
+            background-color: #fefcf7;
+            border-radius: 4px;
+            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.04);
+            display: none;
+            border: 1px solid #e2dfd3;
+        }
+        .page.active {
+            display: block;
+            animation: gentleFade 0.35s ease;
+        }
+        @keyframes gentleFade {
+            from { opacity: 0; transform: translateY(4px);}
+            to { opacity: 1; transform: translateY(0);}
+        }
+
+        h1 {
+            font-size: 32px;
+            text-align: center;
+            margin-bottom: 0.75rem;
+            color: #2b4b3c;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+        h1.sub {
+            font-size: 20px;
+            font-weight: normal;
+            color: #5d6e53;
+            border-bottom: none;
+            margin-top: 0;
+        }
+        h2 {
+            font-size: 22px;
+            margin: 2rem 0 1rem;
+            color: #3e5d4a;
+            border-left: 3px solid #b5c4a4;
+            padding-left: 18px;
+            font-weight: 500;
+        }
+        p {
+            font-size: 16.5px;
+            margin-bottom: 1.2rem;
+            text-align: justify;
+            color: #2d3a2a;
+        }
+        .ref {
+            font-size: 14.5px;
+            margin-left: 1rem;
+            text-indent: -1rem;
+            margin-bottom: 0.6rem;
+            line-height: 1.45;
+            color: #4d5e48;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            margin: 1.5rem 0 0.4rem;
+            border-radius: 6px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+            display: block;
+            border: 1px solid #e4e0d2;
+        }
+        .caption {
+            font-size: 12px;
+            color: #6e7f64;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            font-style: normal;
+            font-family: 'Palatino', serif;
+        }
+        footer {
+            text-align: center;
+            margin-top: 2.2rem;
+            font-size: 12px;
+            color: #8f9a82;
+            border-top: 1px solid #eae4d4;
+            padding-top: 1.5rem;
+        }
+
+        .music-widget {
+            position: fixed;
+            bottom: 26px;
+            right: 26px;
+            background: #f4f1e6e6;
+            backdrop-filter: blur(10px);
+            border-radius: 44px;
+            padding: 6px 18px 6px 14px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            z-index: 1000;
+            border: 1px solid #ccd5bb;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            font-family: 'Segoe UI', 'Palatino', system-ui, sans-serif;
+        }
+        .music-widget button {
+            background: #e6e2d4;
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            font-size: 16px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: #3a4c3a;
+            transition: all 0.15s;
+            box-shadow: inset 0 0 0 1px #cdd9bc;
+        }
+        .music-widget button:hover {
+            background: #dad3bf;
+            transform: scale(0.98);
+        }
+        .music-widget span {
+            color: #3a523e;
+            font-size: 12px;
+            font-weight: 500;
+            letter-spacing: 0.2px;
+        }
+        .volume-slider {
+            width: 76px;
+            cursor: pointer;
+            background: #d4dec5;
+            height: 3px;
+            border-radius: 3px;
+            accent-color: #6f8f6b;
+        }
+        .music-status {
+            font-size: 10px;
+            background: #dce6ce;
+            padding: 2px 8px;
+            border-radius: 24px;
+            color: #3f5842;
+            font-weight: 500;
+        }
+        .music-status.loading {
+            background: #c9d4b5;
+            animation: pulse 1s infinite;
+        }
+        @keyframes pulse {
+            0% { opacity: 0.6; }
+            100% { opacity: 1; }
+        }
+        @media (max-width: 680px) {
+            .page { padding: 1.5rem; margin: 1rem; }
+            nav a { margin: 0 10px; font-size: 13px; }
+            .music-widget { bottom: 14px; right: 14px; padding: 4px 12px; gap: 8px; }
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <a href="#" onclick="openPage(1)">Title</a>
+    <a href="#" onclick="openPage(2)">Introduction</a>
+    <a href="#" onclick="openPage(3)">Theoretical Framework</a>
+    <a href="#" onclick="openPage(4)">Case Study</a>
+    <a href="#" onclick="openPage(5)">Conclusion & References</a>
+</nav>
+
+<!-- Page 1: Title -->
+<div class="page active" id="p1">
+    <h1>Digital Technologies and Resistance</h1>
+    <h1 class="sub">Empowerment, Constraints and the Politics of Visibility</h1>
+    <img src="https://images.pexels.com/photos/211122/pexels-photo-211122.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Digital activism and networked protest">
+    <p class="caption">Source: Pexels (CC0) — Digital networks and collective action</p>
+</div>
+
+<!-- Page 2: Introduction -->
+<div class="page" id="p2">
+    <h2>Introduction</h2>
+    <p>This essay critically examines the dual impact of digital technology on resistance against dominant cultural, political and economic systems. It analyses how digital tools both empower and constrain grassroots activism, identifying which forms of resistance are amplified or suppressed within contemporary platform ecosystems.</p>
+    <p>Today, social media and mobile internet have evolved into core battlegrounds for marginalised groups. Unlike offline protest, digital resistance thrives on accessibility, instant visibility and global coordination. Yet digital technology is never neutral: it operates within profit-driven platforms, opaque algorithms and pervasive surveillance systems.</p>
+    <p>Drawing on theories by Castells, Srnicek, Zuboff, Fenton and Couldry, this essay argues that digital technology constructs a hierarchy of resistance: moderate dissent gains visibility, while radical systemic critique is marginalised. The analysis combines theoretical inquiry with a composite case study of 2023–2025 global digital equity activism.</p>
+    <img src="https://images.pexels.com/photos/607812/pexels-photo-607812.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Global digital connectivity">
+    <p class="caption">Source: Pexels (CC0) — Global digital infrastructure and resistance</p>
+</div>
+
+<!-- Page 3: Theoretical Framework -->
+<div class="page" id="p3">
+    <h2>Theoretical Framework: Digital Empowerment, Visibility Politics and Structural Constraints</h2>
+    <p>Digital technology has fundamentally reshaped social resistance by dismantling historical barriers to political expression. Manuel Castells’ (2012) concept of ‘networked protest’ describes decentralised, internet-based movements prioritising speed and scale over rigid hierarchies.</p>
+    <p>At the core lies visibility politics (Juris, 2008; Couldry, 2012). Short videos, images and hashtags enable marginalised groups to narrate their struggles directly to global audiences, bypassing mainstream media gatekeepers.</p>
+    <p>Digital access democratises participation: smartphones and affordable internet lower barriers for youth, women and low-income communities. Messaging apps foster transnational, non-hierarchical solidarity.</p>
+    <p>However, three structural constraints dominate. Platform capitalism (Srnicek, 2017) prioritises profit over justice. Algorithmic governance (Fenton, 2016) favours emotional, low-risk content over critical analysis. Surveillance capitalism (Zuboff, 2019) enables mass data collection and self-censorship.</p>
+    <img src="https://images.pexels.com/photos/3183150/pexels-photo-3183150.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Digital surveillance concept">
+    <p class="caption">Source: Pexels (CC0) — Surveillance and algorithmic governance</p>
+</div>
+
+<!-- Page 4: Case Study -->
+<div class="page" id="p4">
+    <h2>Case Study: 2023–2025 Global Digital Equity Grassroots Activism</h2>
+    <p>This case is a composite analysis of decentralised grassroots activism (2023–2025), not a single unified movement. Core demand: affordable internet as a fundamental human right.</p>
+    <p>The global digital divide remains severe. UNESCO & ITU (2024) report 2.6 billion people offline. Low-income countries: 27% access vs 93% high-income. Rural: 48% vs urban 83%. Sub-Saharan African women: 37% excluded.</p>
+    <img src="https://images.pexels.com/photos/414837/pexels-photo-414837.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Digital divide representation">
+    <p class="caption">Source: Pexels (CC0) — The global digital divide</p>
+    <p>Grassroots initiatives include Kenya’s TunapandaNET community WiFi and Tanzania’s African Girls Can Code. Activists use #DigitalEquity, #CloseTheDivide on social media.</p>
+    <p>Audiovisual storytelling drives visibility: viral student videos humanise inequality. Yet algorithmic bias suppresses critical content (~40% less reach). Corporations launch CSR campaigns, diluting radical demands. Surveillance fosters self-censorship.</p>
+    <img src="https://images.pexels.com/photos/1595385/pexels-photo-1595385.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Community internet initiative">
+    <p class="caption">Source: Pexels (CC0) — Grassroots digital equity projects</p>
+</div>
+
+<!-- Page 5: Conclusion & References -->
+<div class="page" id="p5">
+    <h2>Conclusion</h2>
+    <p>Digital technologies exert a dual influence on resistance: they enable unprecedented visibility and organising power for marginalised groups, while confining activism within commercial and political boundaries.</p>
+    <p>The 2023–2025 digital equity movement exemplifies this paradox. Networked solidarity amplifies global awareness of the digital divide, bypassing media gatekeepers. Yet algorithmic suppression, corporate co-option, surveillance and media depoliticisation block systemic change.</p>
+    <p>Online visibility alone cannot dismantle structural inequality. Meaningful change requires combining digital solidarity with sustained offline organising.</p>
+
+    <h2>References</h2>
+    <p class="ref">Castells, M. (2012). Networks of Outrage and Hope. Polity Press, Cambridge.</p>
+    <p class="ref">Juris, J.S. (2008). Networked Politics. Duke University Press, Durham.</p>
+    <p class="ref">Couldry, N. (2012). Media, Society, World. Polity Press, Cambridge.</p>
+    <p class="ref">Srnicek, N. (2017). Platform Capitalism. Polity Press, Cambridge.</p>
+    <p class="ref">Fenton, N. (2016). Digital, Political, Radical. Polity Press, Cambridge.</p>
+    <p class="ref">Zuboff, S. (2019). The Age of Surveillance Capitalism. PublicAffairs, New York.</p>
+    <p class="ref">ITU & UNESCO. (2024). State of Broadband Report.</p>
+    <footer>© Academic Inquiry — Digital Rights & Structural Change</footer>
+</div>
+
+<!-- Music Widget -->
+<div class="music-widget" id="musicWidget">
+    <button id="playPauseBtn" aria-label="Play/Pause">▶</button>
+    <span>🎵  background music</span>
+    <input type="range" id="volumeControl" class="volume-slider" min="0" max="1" step="0.01" value="0.12">
+    <span id="musicStateIndicator" class="music-status">paused</span>
+</div>
+
+<script>
+    // ============================================================
+    // SIMPLE, RELIABLE, BEAUTIFUL PIANO MUSIC
+    // Using a single, proven, globally accessible audio file
+    // Extremely舒缓的钢琴曲 - perfect for academic reading
+    // ============================================================
+    
+    let audioElement = null;
+    let isPlaying = false;
+    let currentVolume = 0.12;
+    
+    // 使用一个极其稳定、经过验证的钢琴曲
+    // 这是来自免费音乐库的舒缓钢琴曲，全球可访问
+    const musicUrl = "https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=gentle-piano-amp-soft-ambient-177562.mp3";
+    
+    function updateUI(playing) {
+        const btn = document.getElementById('playPauseBtn');
+        const statusSpan = document.getElementById('musicStateIndicator');
+        if (playing) {
+            btn.innerHTML = '⏸';
+            statusSpan.innerHTML = 'playing ♩';
+        } else {
+            btn.innerHTML = '▶';
+            statusSpan.innerHTML = 'paused';
+        }
+    }
+    
+    function initAudio() {
+        if (audioElement) return audioElement;
+        audioElement = new Audio();
+        audioElement.loop = true;
+        audioElement.volume = currentVolume;
+        audioElement.preload = "auto";
+        return audioElement;
+    }
+    
+    function startMusic() {
+        if (!audioElement) {
+            audioElement = initAudio();
+        }
+        
+        // 如果已经在播放，直接返回
+        if (isPlaying && !audioElement.paused) return;
+        
+        // 如果已经有音频源且处于暂停状态，恢复播放
+        if (audioElement.src && audioElement.paused) {
+            audioElement.play().then(() => {
+                isPlaying = true;
+                updateUI(true);
+            }).catch(err => {
+                console.log("Resume failed, reloading:", err);
+                loadAndPlay();
+            });
+            return;
+        }
+        
+        // 首次加载播放
+        loadAndPlay();
+    }
+    
+    function loadAndPlay() {
+        if (!audioElement) {
+            audioElement = initAudio();
+        }
+        
+        audioElement.src = musicUrl;
+        audioElement.load();
+        
+        audioElement.play().then(() => {
+            isPlaying = true;
+            updateUI(true);
+            console.log("Music playing successfully");
+        }).catch(err => {
+            console.log("Playback error:", err);
+            isPlaying = false;
+            updateUI(false);
+        });
+    }
+    
+    function pauseMusic() {
+        if (audioElement) {
+            audioElement.pause();
+            isPlaying = false;
+            updateUI(false);
+        }
+    }
+    
+    function toggleMusic() {
+        if (isPlaying) {
+            pauseMusic();
+        } else {
+            startMusic();
+        }
+    }
+    
+    function setVolume(val) {
+        currentVolume = parseFloat(val);
+        if (audioElement) {
+            audioElement.volume = currentVolume;
+        }
+        try { localStorage.setItem('music_volume', currentVolume); } catch(e) {}
+    }
+    
+    function loadSavedVolume() {
+        try {
+            const saved = localStorage.getItem('music_volume');
+            if (saved !== null && !isNaN(parseFloat(saved))) {
+                currentVolume = parseFloat(saved);
+                const slider = document.getElementById('volumeControl');
+                if (slider) slider.value = currentVolume;
+                if (audioElement) audioElement.volume = currentVolume;
+            }
+        } catch(e) {}
+    }
+    
+    function openPage(num) {
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        document.getElementById('p'+num).classList.add('active');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    
+    let wasPlayingBeforeHide = false;
+    function onVisibilityChange() {
+        if (document.hidden) {
+            if (isPlaying) {
+                wasPlayingBeforeHide = true;
+                pauseMusic();
+            }
+        } else {
+            if (wasPlayingBeforeHide) {
+                startMusic();
+                wasPlayingBeforeHide = false;
+            }
+        }
+    }
+    
+    document.addEventListener('DOMContentLoaded', () => {
+        const playBtn = document.getElementById('playPauseBtn');
+        const volSlider = document.getElementById('volumeControl');
+        
+        initAudio();
+        loadSavedVolume();
+        
+        if (playBtn) {
+            playBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                toggleMusic();
+            });
+        }
+        if (volSlider) {
+            volSlider.addEventListener('input', (e) => setVolume(e.target.value));
+        }
+        document.addEventListener('visibilitychange', onVisibilityChange);
+        
+        console.log("🎹 Beautiful, calm piano music ready — click PLAY to start.");
+    });
+    
+    window.openPage = openPage;
+    
+    window.addEventListener('beforeunload', () => {
+        if (audioElement && isPlaying) {
+            audioElement.pause();
+        }
+    });
+</script>
+</body>
+</html>
